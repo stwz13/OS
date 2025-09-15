@@ -22,6 +22,7 @@ void main(){
     if (!rc){
         const char* failed_message = "Failed input";
         WriteFile(handle_output, failed_message, lstrlen(failed_message), &bytes_written, NULL);
+        return;
     }
 
     const char* output_message = "Your inputed text:";
