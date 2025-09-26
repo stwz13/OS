@@ -1,3 +1,4 @@
 STDIN handle = 0000000000000050
 STDOUT handle = 0000000000000054
-Input textYour inputed text:
+Input text
+Your inputed text:123
