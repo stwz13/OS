@@ -12,11 +12,14 @@ void print_colored_middle_text(const char* text, WORD color){
     int text_len = (int)strlen(text);
     int position_of_text = (console_width - text_len) / 2;
 
+    COORD position;
+    position.X = position_of_text;
+    position.Y = console_screen_info.dwCursorPosition.Y;
+    SetConsoleCursorPosition(out_handle, position);
+
     SetConsoleTextAttribute(out_handle, color);
 
-    for (int i = 0; i < position_of_text; i++){
-        printf(" ");
-    }
+   
     printf("%s\n", text);
 
     SetConsoleTextAttribute(out_handle, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
