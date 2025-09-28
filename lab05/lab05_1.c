@@ -4,7 +4,6 @@
 
 #define MAX_COUNT_LINES 1024
 
-
 int main(){
     HANDLE input_handle = GetStdHandle(STD_INPUT_HANDLE);
     HANDLE output_handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -13,7 +12,7 @@ int main(){
     INPUT_RECORD input_record;
 
     GetConsoleMode(input_handle, &current_console_mode);
-    SetConsoleMode(input_handle, ENABLE_MOUSE_INPUT | ENABLE_EXTENDED_FLAGS);
+    SetConsoleMode(input_handle, ~ENABLE_QUICK_EDIT_MODE & (ENABLE_MOUSE_INPUT | ENABLE_EXTENDED_FLAGS));
 
     FILE *file = fopen("input.txt", "r");
     if (!file){
@@ -41,19 +40,18 @@ int main(){
 
     fclose(file);
 
-
     CONSOLE_SCREEN_BUFFER_INFO console_inf;
     GetConsoleScreenBufferInfo(output_handle, &console_inf);
     int message_line = console_inf.dwCursorPosition.Y + 1;
     DWORD count;
     
     while (1){
-        //if (input_record.EventType != MOUSE_EVENT) continue;
-
-        ReadConsoleInput(input_handle, &input_record, 1, &count);
+        if (ReadConsoleInput(input_handle, &input_record, 1, &count)){
+        if (input_record.EventType != MOUSE_EVENT) continue;
+        
         MOUSE_EVENT_RECORD mouse_event = input_record.Event.MouseEvent;
 
-        if (mouse_event.dwButtonState && FROM_LEFT_1ST_BUTTON_PRESSED){
+        if (mouse_event.dwButtonState == FROM_LEFT_1ST_BUTTON_PRESSED){
             char symbol;
             COORD position = mouse_event.dwMousePosition;
 
@@ -73,8 +71,9 @@ int main(){
 
         }
 
-        if (mouse_event.dwButtonState & RIGHTMOST_BUTTON_PRESSED) break;
+        if (mouse_event.dwButtonState == RIGHTMOST_BUTTON_PRESSED) break;
     }
+}
 
     SetConsoleMode(input_handle, current_console_mode);
     return 0;
