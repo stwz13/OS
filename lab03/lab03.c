@@ -64,6 +64,7 @@ int main(){
         }
         else{
             print_colored_middle_text("File opened successfully", FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            Sleep(INFINITE);
             break;
 
         }
