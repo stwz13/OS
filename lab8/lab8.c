@@ -111,5 +111,8 @@ int main()
                                   (LPVOID)(intptr_t)i, 0, NULL);
 
     WaitForMultipleObjects(READERS, readers, TRUE, INFINITE);
+
+    getchar();
+    
     return 0;
 }
